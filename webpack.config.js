@@ -5,7 +5,7 @@ module.exports = {
   devtool: 'source-map',
   entry: path.join(__dirname, 'src/index.ts'),
   output: {
-    path: path.join(__dirname, 'dist')
+    path: path.join(__dirname, 'docs')
   },
   resolve: {
     extensions: ['.ts', '.js'],
