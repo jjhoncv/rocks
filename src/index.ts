@@ -21,7 +21,6 @@ const Bullet = (x, y) => {
   };
 
   const draw = () => {
-    // console.log('y', y)
     context.beginPath();
     context.moveTo(x, y);
     context.lineTo(x, 50);
@@ -37,7 +36,8 @@ const Bullet = (x, y) => {
 const Player = (x, y) => {
   var canvas = document.getElementById("canvas") as HTMLCanvasElement;
   const context = canvas.getContext("2d");
-
+  const radio = 20;
+  const width = radio * 2;
   var defaults = {
     x,
     y,
@@ -46,49 +46,45 @@ const Player = (x, y) => {
   var x = defaults.x;
   var y = defaults.y;
   var angle = 0;
+  var velocity = 0;
+  var aceleration = 1;
 
   const update = () => {
     if (keyboard.LEFT()) {
-      angle--;
+      if (angle <= 0) {
+        angle = 0;
+      } else {
+        angle = angle - 1 * velocity;
+      }
     }
     if (keyboard.RIGHT()) {
-      angle++;
+      if (angle >= 360) {
+        angle = 360;
+      } else {
+        angle = angle + 1 * velocity;
+      }
     }
     if (keyboard.DOWN()) {
-      y++;
+      velocity--;
     }
     if (keyboard.UP()) {
-      y--;
+      velocity++;
     }
   };
 
   const draw = () => {
-    // context.save();
     context.save();
     context.translate(x, y);
     context.rotate((angle * Math.PI) / 180);
 
     context.beginPath();
-    context.arc(x - defaults.x, y - 20 - defaults.y, 5, 0, 2 * Math.PI);
+    context.arc(0, -radio, 5, 0, 2 * Math.PI);
     context.stroke();
 
     context.beginPath();
-    context.arc(x - defaults.x, y - defaults.y, 20, 0, 2 * Math.PI);
-    // context.stroke();
+    context.arc(0, 0, radio, 0, 2 * Math.PI);
 
-    // context.save();
     context.restore();
-
-    // // context.stroke();
-    // // context.beginPath();
-    // // console.log(angle)
-    // context.rotate(45 * (Math.PI) / 180);
-    // context.translate(0, 0);
-    // console.log(angle, angle * (Math.PI) / 180)
-    // context.restore();
-
-    // context.restore();
-    // context.restore();
   };
 
   return {
@@ -104,17 +100,13 @@ function GameState() {
   var player1;
 
   const init = () => {
-    player1 = Player(50, 50);
+    player1 = Player(100, 100);
   };
   const update = () => {
     player1.update();
   };
   const draw = () => {
-    // context.save();
-    // context.translate(150,150);
-    // context.rotate(90 * (Math.PI) / 180);
     player1.draw();
-    // context.restore()
   };
   init();
   return {
